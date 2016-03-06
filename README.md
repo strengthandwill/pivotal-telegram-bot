@@ -16,7 +16,7 @@ The following events are tracked:
 This events can be change at: 
 
 ```sh
-app/helpers/activity_helper.rb#get_message.
+app/helpers/activity_helper.rb#get_message
 ```
 
 ## Installation
