@@ -20,18 +20,23 @@ module ActivityHelper
                   highlight == 'finished'  || 
                   highlight == 'delivered' || 
                   highlight == 'delivered'
-        "#{who_did_it} #{story_type} \"#{story_name}\"."
-      when 'comment_create_activity'
-        "#{who_did_it} to the #{story_type} \"#{story_name}\"."
+        if highlight == "edited"
+          description = json[:changes][0][:new_values][:description]
+          "#{who_did_it} description to \"#{description}\" of #{story_type} \"#{story_name}\"."          
+        else
+          "#{who_did_it} #{story_type} \"#{story_name}\"."
+        end
+      when 'comment_create_activity' || 'comment_update_activity'
+        text = json[:changes][0][:new_values][:text]
+        "#{who_did_it} \"#{text}\" to #{story_type} \"#{story_name}\"."
       when 'task_update_activity', 'story_delete_activity'
         s = json[:message].index('"')
         task_name = json[:message][s..-1]
         "#{who_did_it} #{task_name} of #{story_type} \"#{story_name}\"."        
       when 'epic_create_activity'
         "#{who_did_it} new #{primary_resource[:kind]} \"#{story_name}\"."
-        
       else
-        PivotalTracker::Base.logger.info("App -- Undefined kind : #{json}")
+        logger.info("App -- Undefined kind : #{json}")
         return
     end
   end
