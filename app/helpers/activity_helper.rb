@@ -14,27 +14,27 @@ module ActivityHelper
     
     case json[:kind]
       when 'story_create_activity'
-        "#{who_did_it} new #{story_type} \"#{story_name}\"."
+        "#{who_did_it} new #{story_type} \"#{story_name}\".\n#{url}"
       when 'story_update_activity', 'story_delete_activity'
         return if highlight == 'estimated' || 
                   highlight == 'finished'  || 
                   highlight == 'delivered' || 
                   highlight == 'delivered'
         if highlight == "edited"
-          description = json[:changes][0][:new_values][:description]
-          "#{who_did_it} description to \"#{description}\" of #{story_type} \"#{story_name}\"." unless description.blank?          
+          # description = json[:changes][0][:new_values][:description]
+          # "#{who_did_it} description to \"#{description}\" of #{story_type} \"#{story_name}\".\n#{url}" unless description.blank?          
         else
-          "#{who_did_it} #{story_type} \"#{story_name}\"."
+          "#{who_did_it} #{story_type} \"#{story_name}\".\n#{url}"
         end
       when 'comment_create_activity' || 'comment_update_activity'
         text = json[:changes][0][:new_values][:text]
-        "#{who_did_it} \"#{text}\" to #{story_type} \"#{story_name}\"." unless text.blank?
+        "#{who_did_it} \"#{text}\" to #{story_type} \"#{story_name}\".\n#{url}" unless text.blank?
       when 'task_update_activity', 'story_delete_activity'
         s = json[:message].index('"')
         task_name = json[:message][s..-1]
-        "#{who_did_it} #{task_name} of #{story_type} \"#{story_name}\"."        
+        "#{who_did_it} #{task_name} of #{story_type} \"#{story_name}\".\n#{url}"        
       when 'epic_create_activity'
-        "#{who_did_it} new #{primary_resource[:kind]} \"#{story_name}\"."
+        "#{who_did_it} new #{primary_resource[:kind]} \"#{story_name}\".\n#{url}"
       else
         logger.info("App -- Undefined kind : #{json}")
         return
@@ -43,7 +43,7 @@ module ActivityHelper
   
   def send_message(message)
     Telegram::Bot::Client.run(ENV['telegram_token']) do |bot|
-      bot.api.send_message(chat_id: ENV['telegram_chat_id'], text: message)
+      bot.api.send_message(chat_id: ENV['telegram_chat_id'], text: message, disable_web_page_preview: true)
     end 
   end
 end
