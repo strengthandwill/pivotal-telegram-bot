@@ -3,6 +3,7 @@ module BuddyHelper
     project_name = json[:project][:name]
     execution_url = json[:execution][:url]
     execution_status = json[:execution][:status]
+    execution_status = (execution_status == 'INPROGRESS' ? 'SUCCESSFUL' : execution_status)
     execution_branch_name = json[:execution][:branch][:name]
     execution_creator_name = json[:execution][:creator][:name]
     execution_to_revision_message = json[:execution][:to_revision][:message]
