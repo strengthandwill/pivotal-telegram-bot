@@ -1,5 +1,5 @@
-class Api::V1::ActivityController < Api::ApiController
-  include ActivityHelper
+class Api::V1::BuddyController < Api::ApiController
+  include BuddyHelper
   include TelegramHelper
   
   def create

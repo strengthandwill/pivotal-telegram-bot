@@ -1,5 +1,3 @@
-require 'telegram/bot'
-
 module ActivityHelper
   def get_message(json)
     project_id        = json[:project][:id]
@@ -39,11 +37,5 @@ module ActivityHelper
         logger.info("App -- Undefined kind : #{json}")
         return
     end
-  end
-  
-  def send_message(message)
-    Telegram::Bot::Client.run(ENV['telegram_token']) do |bot|
-      bot.api.send_message(chat_id: ENV['telegram_chat_id'], text: message, disable_web_page_preview: true)
-    end 
   end
 end
