@@ -10,5 +10,6 @@ module BuddyHelper
     execution_to_revision_url = json[:execution][:to_revision][:url]
     
     message = "[#{project_name}] #{invoker_name} push in '#{execution_to_revision_message}' commit to #{execution_branch_name} branch and the build is #{execution_status}.\n\n"
+    message
   end
 end
