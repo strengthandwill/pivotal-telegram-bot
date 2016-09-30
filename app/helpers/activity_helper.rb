@@ -9,14 +9,16 @@ module ActivityHelper
     story_name        = primary_resource[:name]
     url               = primary_resource[:url]
     next_state        = next_state(highlight)
-    who_did_it        = "[#{project_name}]<#{next_state}> #{username} #{highlight}"
+    who_did_it        = "[#{project_name}] #{username} #{highlight}"
     
     case json[:kind]
-      when 'story_create_activity'
-        "#{who_did_it} new #{story_type} \"#{story_name}\".\n#{url}"
+      # when 'story_create_activity'
+        # "#{project_name} #{who_did_it} new #{story_type} \"#{story_name}\".\n#{url}"
+        # "[#{project_name}][#{next_state}][#{story_name}][#{story_type} by #{username}][#{url}]"
       when 'story_update_activity', 'story_delete_activity'
         return if highlight == 'estimated' || highlight == "edited"
-        "#{who_did_it}#{next_state} #{story_type} \"#{story_name}\", #{next_state}\n#{url}"
+        # "#{project_name} #{who_did_it}#{next_state} #{story_type} \"#{story_name}\", #{next_state}\n#{url}"
+        "[#{project_name}][#{next_state}][#{story_name}][#{story_type} by #{username}][#{url}]"
       else
         logger.info("App -- Undefined kind : #{json}")
         return
