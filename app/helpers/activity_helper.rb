@@ -28,7 +28,7 @@ module ActivityHelper
       when 'moved and scheduled'
         'Ready for DEV'      
       when 'started'
-        'WIP'      
+        'WIP in DEV'      
       when 'finished'
         'Ready for TESTING'
       when 'delivered'
